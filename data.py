@@ -1,6 +1,11 @@
 import scanpy as sc
 import pandas as pd
 import anndata
+import pickle
+
+# Stops pandas from wrapping over the columns and rows of the database #
+pd.set_option('display.max_columns', 10)
+pd.set_option('display.width', 1000)
 
 healthy_data = sc.read_10x_mtx(
     "data/healthy/filtered_feature_bc_matrix/",  # the folder containing your 3 files
@@ -15,7 +20,7 @@ diseased_data = sc.read_10x_mtx(
 healthy_data.obs['source'] = 'healthy'
 diseased_data.obs['source'] = 'diseased'
 
-adata_combined = anndata.concat(
+adata = anndata.concat(
     [healthy_data, diseased_data],
     join='outer',         # keeps all genes; fills missing values with zeros
     label='source',       # creates `obs['source']` column automatically if not set
@@ -23,9 +28,26 @@ adata_combined = anndata.concat(
     index_unique=None     # keeps original cell barcodes
 )
 
-data = adata_combined.to_df()
+database = adata.to_df()
 
-print(data.head())
+print(database.head())
 
-print(diseased_data.to_df().head())
-print(healthy_data.to_df().head())
+sc.pp.calculate_qc_metrics(adata, inplace=True, log1p=True)
+
+# Normalize the data using count depth sampling technique #
+# Normalize the data + apply a log1p transform to remove major outliers #
+# log1p essentially is y = ln(1+x)
+adata.layers["counts"] = adata.X.copy()
+sc.pp.normalize_total(adata)
+sc.pp.log1p(adata)
+
+# Expects  log1p'd data #
+sc.pp.highly_variable_genes(adata)
+sc.pl.highly_variable_genes(adata)
+
+sc.tl.pca(adata)
+sc.pl.pca_variance_ratio(adata, n_pcs=50, log=True)
+
+with open('data.pkl', 'wb') as f:
+    pickle.dump(adata, f)
+

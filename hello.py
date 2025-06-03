@@ -1,10 +1,8 @@
 from pprint import pprint
 
 import scanpy as sc
-import pandas as pd
 from collections import defaultdict
-import anndata
-import numpy as np
+import pickle
 
 marker_dict = {
     "CD4+ T cells": {
@@ -41,52 +39,8 @@ marker_dict = {
     }
 }
 
-
-
-# Stops pandas from wrapping over the columns and rows of the database #
-pd.set_option('display.max_columns', 10)
-pd.set_option('display.width', 1000)
-
-healthy_data = sc.read_10x_mtx(
-    "data/healthy/filtered_feature_bc_matrix/",  # the folder containing your 3 files
-    cache=True  # speeds up loading
-)
-
-diseased_data = sc.read_10x_mtx(
-    "data/diseased/filtered_feature_bc_matrix/",  # the folder containing your 3 files
-    cache=True  # speeds up loading
-)
-
-healthy_data.obs['source'] = 'healthy'
-diseased_data.obs['source'] = 'diseased'
-
-adata = anndata.concat(
-    [healthy_data, diseased_data],
-    join='outer',         # keeps all genes; fills missing values with zeros
-    label='source',       # creates `obs['source']` column automatically if not set
-    keys=['healthy', 'diseased'],
-    index_unique=None     # keeps original cell barcodes
-)
-
-database = adata.to_df()
-
-print(database.head())
-
-sc.pp.calculate_qc_metrics(adata, inplace=True, log1p=True)
-
-# Normalize the data using count depth sampling technique #
-# Normalize the data + apply a log1p transform to remove major outliers #
-# log1p essentially is y = ln(1+x)
-adata.layers["counts"] = adata.X.copy()
-sc.pp.normalize_total(adata)
-sc.pp.log1p(adata)
-
-# Expects  log1p'd data #
-sc.pp.highly_variable_genes(adata)
-sc.pl.highly_variable_genes(adata)
-
-sc.tl.pca(adata)
-sc.pl.pca_variance_ratio(adata, n_pcs=50, log=True)
+with open('data.pkl', 'rb') as f:
+    adata = pickle.load(f)
 
 # Use neighbors so that leiden alogrithim can be used #
 sc.pp.neighbors(adata, random_state=42)
@@ -104,13 +58,12 @@ for cluster in adata.obs["leiden_res_0.50"].unique():
     community = adata[adata.obs["leiden_res_0.50"] == cluster]
 
     for cell_type, markers in marker_dict.items():
-        pos_genes = [g for g in markers['positive'] if g in community.var_names]
-        neg_genes = [g for g in markers['negative'] if g in community.var_names]
+        pos_genes = list(set(markers['positive']).intersection(community.var_names))
+        neg_genes = list(set(markers['negative']).intersection(community.var_names))
 
         if not pos_genes: continue
 
-        pos_score = 0.0
-        neg_score = 0.0
+        pos_score, neg_score = 0.0, 0.0
 
         # Get positive marker expression
         pos_expr = community[:, pos_genes].X
