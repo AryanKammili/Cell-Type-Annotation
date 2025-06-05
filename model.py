@@ -1,8 +1,10 @@
+import math
 from pprint import pprint
 
 import scanpy as sc
 from collections import defaultdict
 import pickle
+import numpy as np
 
 marker_dict = {
     "CD4+ T cells": {
@@ -48,8 +50,7 @@ sc.tl.umap(adata, random_state=42)
 
 # Specify the resolution which determines how many communities is created by leiden alogrihthim #
 # Save to a key to be plotted later #
-sc.tl.leiden(adata, key_added=f"leiden_res_{0.5:4.2f}", resolution=0.1, flavor="igraph", random_state=42)
-
+sc.tl.louvain(adata, key_added=f"leiden_res_{0.5:4.2f}", flavor="igraph", random_state=42)
 
 cluster_scores = defaultdict(dict)
 
@@ -65,29 +66,24 @@ for cluster in adata.obs["leiden_res_0.50"].unique():
 
         pos_score, neg_score = 0.0, 0.0
 
-        # Get positive marker expression
-        pos_expr = community[:, pos_genes].X
-        pos_score = pos_expr.mean() / len(pos_genes)
+        pos_idx = [community.var_names.get_loc(g) for g in pos_genes]
+        pos_expr = community.X[:, pos_idx].mean(axis=1)
+        pos_score = pos_expr.sum() / np.sqrt(len(pos_genes))
 
-        # Get negative marker expression
         if neg_genes:
-            neg_expr = community[:, neg_genes].X
-            neg_score = neg_expr.mean() / len(neg_genes)
+            neg_idx = [community.var_names.get_loc(g) for g in neg_genes]
+            neg_expr = community.X[:, neg_idx].mean(axis=1)
+            neg_score = neg_expr.sum() / np.sqrt(len(neg_genes))
+
         else:
-            neg_score = 0
+            neg_score = 0.0
 
-        # Skip cell type if expression is too low (optional)
-        if pos_score < 0.05:
-            continue
-
-        final_score = pos_score - 0.5 * neg_score
+        final_score = pos_score - neg_score
         cluster_scores[cluster][cell_type] = float(final_score)
 
 pprint(cluster_scores)
 
 cluster_annotations = {}
-
-
 for cluster, scores in cluster_scores.items():
 
     if not scores:
