@@ -41,6 +41,20 @@ marker_dict = {
     }
 }
 
+positive_markers_dict = {ctype: markers["positive"] for ctype, markers in marker_dict.items()}
+
+
+def get_marker_gene_specificity(positive_genes):
+    gene_counts = defaultdict(int)
+    for genes in positive_genes.values():
+        unique_genes = set(genes)
+        for gene in unique_genes:
+            gene_counts[gene] = gene_counts[gene] + 1
+    return {gene: 1.0 / count for gene, count in gene_counts.items()}
+
+
+specificity_weights = get_marker_gene_specificity(positive_markers_dict)
+
 with open('data.pkl', 'rb') as f:
     adata = pickle.load(f)
 
@@ -65,15 +79,24 @@ for cluster in adata.obs["leiden_res_0.50"].unique():
         if not pos_genes:
             continue
 
+        pos_weights = np.array([specificity_weights.get(g, 0) for g in pos_genes])
+
+        pprint(pos_weights)
+
+        if pos_weights.sum() == 0:
+            continue
+
         pos_score, neg_score = 0.0, 0.0
 
         pos_idx = [community.var_names.get_loc(g) for g in pos_genes]
-        pos_expr = community.X[:, pos_idx].mean(axis=1)
-        pos_score = pos_expr.sum() / np.sqrt(len(pos_genes))
+        pos_expr = community.X[:, pos_idx].mean(axis=0)
+
+        pprint(pos_expr)
+        pos_score = np.dot(pos_expr, pos_weights) / np.sqrt(len(pos_genes))
 
         if neg_genes:
             neg_idx = [community.var_names.get_loc(g) for g in neg_genes]
-            neg_expr = community.X[:, neg_idx].mean(axis=1)
+            neg_expr = community.X[:, neg_idx].mean(axis=0)
             neg_score = neg_expr.sum() / np.sqrt(len(neg_genes))
 
         else:
@@ -102,6 +125,3 @@ sc.pl.umap(adata, color="manual_annotations", legend_loc="on data")
 sc.pl.umap(adata, color="leiden_res_0.50", legend_loc="on data")
 
 print(adata.obs['manual_annotations'].value_counts())
-
-
-
