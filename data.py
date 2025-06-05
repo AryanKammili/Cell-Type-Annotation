@@ -45,9 +45,14 @@ sc.pp.log1p(adata)
 sc.pp.highly_variable_genes(adata)
 sc.pl.highly_variable_genes(adata)
 
+# Principal Component Analysis #
+# Simplifies data and helps delete dimensions #
 sc.tl.pca(adata)
 sc.pl.pca_variance_ratio(adata, n_pcs=50, log=True)
 
+
+# Upload the final manipulated data to pickle #
+# Allows for the model to just open the .pkl file instead of preprocessing the data each time #
 with open('data.pkl', 'wb') as f:
     pickle.dump(adata, f)
 

@@ -62,7 +62,8 @@ for cluster in adata.obs["leiden_res_0.50"].unique():
         pos_genes = list(set(markers['positive']).intersection(community.var_names))
         neg_genes = list(set(markers['negative']).intersection(community.var_names))
 
-        if not pos_genes: continue
+        if not pos_genes:
+            continue
 
         pos_score, neg_score = 0.0, 0.0
 
