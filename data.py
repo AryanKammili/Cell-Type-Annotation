@@ -7,8 +7,13 @@ import pickle
 pd.set_option('display.max_columns', 10)
 pd.set_option('display.width', 1000)
 
-healthy_data = sc.read_10x_mtx(
-    "data/healthy/filtered_feature_bc_matrix/",  # the folder containing your 3 files
+healthy1_data = sc.read_10x_mtx(
+    "data/healthy/filtered_matrices_mex/",  # the folder containing your 3 files
+    cache=True  # speeds up loading
+)
+
+healthy2_data = sc.read_10x_mtx(
+    "data/healthy/filtered_gene_bc_matrices/",  # the folder containing your 3 files
     cache=True  # speeds up loading
 )
 
@@ -17,14 +22,15 @@ diseased_data = sc.read_10x_mtx(
     cache=True  # speeds up loading
 )
 
-healthy_data.obs['source'] = 'healthy'
+healthy1_data.obs['source'] = 'healthy1'
+healthy2_data.obs['source'] = 'healthy2'
 diseased_data.obs['source'] = 'diseased'
 
 adata = anndata.concat(
-    [healthy_data, diseased_data],
+    [healthy1_data, healthy2_data, diseased_data],
     join='outer',         # keeps all genes; fills missing values with zeros
     label='source',       # creates `obs['source']` column automatically if not set
-    keys=['healthy', 'diseased'],
+    keys=['healthy1', 'healthy2', 'diseased'],
     index_unique=None     # keeps original cell barcodes
 )
 
