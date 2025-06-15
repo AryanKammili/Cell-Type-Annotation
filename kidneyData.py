@@ -2,43 +2,27 @@ import scanpy as sc
 import pandas as pd
 import anndata
 import pickle
+import json
+from sklearn.preprocessing import StandardScaler
 
 # Stops pandas from wrapping over the columns and rows of the database #
 pd.set_option('display.max_columns', 10)
 pd.set_option('display.width', 1000)
 
-healthy1_data = sc.read_10x_mtx(
-    "data/healthy/filtered_matrices_mex/",  # the folder containing your 3 files
+annotations = pd.read_csv("data/Kidney/cell_types/cell_types.csv")
+annotations = annotations["coarse_cell_type"]
+annotations = annotations.tolist()
+print(annotations)
+
+adata = sc.read_10x_mtx(
+    "data/Kidney/sample_filtered_feature_bc_matrix/",  # the folder containing your 3 files
     cache=True  # speeds up loading
 )
 
-healthy2_data = sc.read_10x_mtx(
-    "data/healthy/filtered_gene_bc_matrices/",  # the folder containing your 3 files
-    cache=True  # speeds up loading
-)
-
-diseased_data = sc.read_10x_mtx(
-    "data/diseased/filtered_feature_bc_matrix/",  # the folder containing your 3 files
-    cache=True  # speeds up loading
-)
-
-healthy1_data.obs['source'] = 'healthy1'
-healthy2_data.obs['source'] = 'healthy2'
-diseased_data.obs['source'] = 'diseased'
-
-adata = anndata.concat(
-    [healthy1_data, healthy2_data, diseased_data],
-    join='outer',         # keeps all genes; fills missing values with zeros
-    label='source',       # creates `obs['source']` column automatically if not set
-    keys=['healthy1', 'healthy2', 'diseased'],
-    index_unique=None     # keeps original cell barcodes
-)
-
-database = adata.to_df()
-
-print(database.head())
+adata.obs["true_annotations"] = annotations
 
 sc.pp.calculate_qc_metrics(adata, inplace=True, log1p=True)
+
 
 # Normalize the data using count depth sampling technique #
 # Normalize the data + apply a log1p transform to remove major outliers #
@@ -46,6 +30,8 @@ sc.pp.calculate_qc_metrics(adata, inplace=True, log1p=True)
 adata.layers["counts"] = adata.X.copy()
 sc.pp.normalize_total(adata)
 sc.pp.log1p(adata)
+
+adata.X = StandardScaler(with_mean=False).fit_transform(adata.X)
 
 # Expects  log1p'd data #
 sc.pp.highly_variable_genes(adata)
@@ -56,9 +42,7 @@ sc.pl.highly_variable_genes(adata)
 sc.tl.pca(adata)
 sc.pl.pca_variance_ratio(adata, n_pcs=50, log=True)
 
-
 # Upload the final manipulated data to pickle #
 # Allows for the model to just open the .pkl file instead of preprocessing the data each time #
-with open('data.pkl', 'wb') as f:
+with open('kidneyData.pkl', 'wb') as f:
     pickle.dump(adata, f)
-
