@@ -1,0 +1,170 @@
+Tissue,Cell Type,Marker Type,Marker
+PBMC,B cells,positive,MS4A1
+PBMC,B cells,positive,CD79A
+PBMC,B cells,positive,CD19
+PBMC,B cells,positive,CD22
+PBMC,B cells,positive,BANK1
+PBMC,B cells,negative,CD3D
+PBMC,B cells,negative,CD8A
+PBMC,B cells,negative,CD14
+PBMC,B cells,negative,NKG7
+PBMC,T cells,positive,CD3D
+PBMC,T cells,positive,CD3E
+PBMC,T cells,positive,CD4
+PBMC,T cells,positive,CD8A
+PBMC,T cells,positive,CD8B
+PBMC,T cells,positive,TRAC
+PBMC,T cells,negative,KLRD1
+PBMC,T cells,negative,NKG7
+PBMC,T cells,negative,GNLY
+PBMC,T cells,negative,PECAM1
+PBMC,T cells,negative,EPCAM
+PBMC,NK cells,positive,GNLY
+PBMC,NK cells,positive,NKG7
+PBMC,NK cells,positive,KLRD1
+PBMC,NK cells,positive,KLRF1
+PBMC,NK cells,positive,PRF1
+PBMC,NK cells,negative,CD3D
+PBMC,NK cells,negative,CD3E
+PBMC,NK cells,negative,CD4
+PBMC,NK cells,negative,CD8B
+PBMC,monocyte,positive,CD14
+PBMC,monocyte,positive,LYZ
+PBMC,monocyte,positive,S100A8
+PBMC,monocyte,positive,S100A9
+PBMC,monocyte,positive,VCAN
+PBMC,monocyte,positive,FCGR3A
+PBMC,monocyte,negative,CD3D
+PBMC,monocyte,negative,MS4A1
+PBMC,monocyte,negative,FCER1A
+PBMC,monocyte,negative,NKG7
+PBMC,monocyte,negative,CD79A
+PBMC,Dendritic cell,positive,FCER1A
+PBMC,Dendritic cell,positive,CST3
+PBMC,Dendritic cell,positive,ITGAX
+PBMC,Dendritic cell,positive,IRF8
+PBMC,Dendritic cell,positive,HLA-DRA
+PBMC,Dendritic cell,negative,CD3D
+PBMC,Dendritic cell,negative,CD14
+PBMC,Dendritic cell,negative,MS4A1
+PBMC,Dendritic cell,negative,NKG7
+PBMC,macrophage,positive,CD68
+PBMC,macrophage,positive,CD163
+PBMC,macrophage,positive,MRC1
+PBMC,macrophage,positive,CSF1R
+PBMC,macrophage,positive,APOE
+PBMC,macrophage,positive,SPP1
+PBMC,macrophage,negative,CD3D
+PBMC,macrophage,negative,CD79A
+PBMC,macrophage,negative,NKG7
+PBMC,macrophage,negative,CLEC9A
+PBMC,macrophage,negative,PPBP
+PBMC,Megakaryocyte,positive,PPBP
+PBMC,Megakaryocyte,positive,PF4
+PBMC,Megakaryocyte,positive,ITGA2B
+PBMC,Megakaryocyte,positive,GP9
+PBMC,Megakaryocyte,positive,MKI67
+PBMC,Megakaryocyte,negative,CD3D
+PBMC,Megakaryocyte,negative,MS4A1
+PBMC,Megakaryocyte,negative,CD14
+PBMC,Megakaryocyte,negative,FCER1A
+PBMC,hematopoietic cell,positive,PTPRC
+PBMC,hematopoietic cell,positive,SPI1
+PBMC,hematopoietic cell,positive,ITGB2
+PBMC,hematopoietic cell,positive,CD34
+PBMC,hematopoietic cell,positive,CD43
+PBMC,hematopoietic cell,positive,CD99
+PBMC,hematopoietic cell,positive,LYZ
+PBMC,hematopoietic cell,negative,EPCAM
+PBMC,hematopoietic cell,negative,CDH1
+PBMC,hematopoietic cell,negative,PECAM1
+PBMC,hematopoietic cell,negative,ACTA2
+PBMC,hematopoietic cell,negative,PDGFRA
+PBMC,hematopoietic cell,negative,VIM
+PBMC,hematopoietic cell,negative,GFAP
+Kidney,Distal tubule,positive,SLC12A3
+Kidney,Distal tubule,positive,CALB1
+Kidney,Distal tubule,positive,FXYD4
+Kidney,Distal tubule,positive,CLDN8
+Kidney,Distal tubule,negative,UMOD
+Kidney,Distal tubule,negative,SLC5A2
+Kidney,Distal tubule,negative,NPHS1
+Kidney,Distal tubule,negative,PDGFRB
+Kidney,Collecting duct,positive,AQP2
+Kidney,Collecting duct,positive,AVPR2
+Kidney,Collecting duct,positive,ATP6V1B1
+Kidney,Collecting duct,positive,SLC4A1
+Kidney,Collecting duct,negative,SLC12A3
+Kidney,Collecting duct,negative,SLC5A2
+Kidney,Collecting duct,negative,NPHS1
+Kidney,Endothelial cell,positive,PECAM1
+Kidney,Endothelial cell,positive,VWF
+Kidney,Endothelial cell,positive,CD34
+Kidney,Endothelial cell,positive,MCAM
+Kidney,Endothelial cell,negative,SLC34A1
+Kidney,Endothelial cell,negative,NPHS1
+Kidney,Endothelial cell,negative,AQP2
+Kidney,Endothelial cell,negative,EPCAM
+Kidney,Endothelial cell,negative,KRT8
+Kidney,Endothelial cell,negative,KRT18
+Kidney,Endothelial cell,negative,CDH1
+Kidney,Fibroblast (Kidney),positive,PDGFRA
+Kidney,Fibroblast (Kidney),positive,PDGFRB
+Kidney,Fibroblast (Kidney),positive,COL1A1
+Kidney,Fibroblast (Kidney),positive,VIM
+Kidney,Fibroblast (Kidney),positive,DCN
+Kidney,Fibroblast (Kidney),negative,SLC34A1
+Kidney,Fibroblast (Kidney),negative,NPHS1
+Kidney,Fibroblast (Kidney),negative,AQP2
+Kidney,Fibroblast (Kidney),negative,PECAM1
+Kidney,Epithelial cell,positive,EPCAM
+Kidney,Epithelial cell,positive,KRT8
+Kidney,Epithelial cell,positive,KRT18
+Kidney,Epithelial cell,positive,CDH1
+Kidney,Epithelial cell,negative,PTPRC
+Kidney,Epithelial cell,negative,PECAM1
+Kidney,Epithelial cell,negative,COL1A1
+Kidney,Epithelial cell,negative,VWF
+Kidney,Epithelial cell,negative,CD34
+Kidney,Epithelial cell,negative,MCAM
+Prostate,Basal cell,positive,TP63
+Prostate,Basal cell,positive,KRT5
+Prostate,Basal cell,positive,KRT14
+Prostate,Basal cell,positive,EGFR
+Prostate,Basal cell,negative,KLK3
+Prostate,Basal cell,negative,ACPP
+Prostate,Basal cell,negative,AR
+Prostate,Basal cell,negative,KRT8
+Prostate,Basal cell,negative,KRT18
+Prostate,Ductal epithelial cell,positive,EPCAM
+Prostate,Ductal epithelial cell,positive,KRT8
+Prostate,Ductal epithelial cell,positive,KRT18
+Prostate,Ductal epithelial cell,positive,PSCA
+Prostate,Ductal epithelial cell,positive,MUC1
+Prostate,Ductal epithelial cell,negative,TP63
+Prostate,Ductal epithelial cell,negative,KRT5
+Prostate,Ductal epithelial cell,negative,ACTA2
+Prostate,Cholangiocyte,positive,KRT7
+Prostate,Cholangiocyte,positive,KRT19
+Prostate,Cholangiocyte,positive,EPCAM
+Prostate,Cholangiocyte,positive,CFTR
+Prostate,Cholangiocyte,positive,SOX9
+Prostate,Cholangiocyte,negative,TP63
+Prostate,Cholangiocyte,negative,KRT14
+Prostate,Cholangiocyte,negative,ACTA2
+Prostate,Fibroblast,positive,COL1A1
+Prostate,Fibroblast,positive,DCN
+Prostate,Fibroblast,positive,PDGFRA
+Prostate,Fibroblast,positive,FAP
+Prostate,Fibroblast,positive,VIM
+Prostate,Fibroblast,negative,KRT5
+Prostate,Fibroblast,negative,KRT8
+Prostate,Fibroblast,negative,EPCAM
+Prostate,Keratinocyte,positive,KRT1
+Prostate,Keratinocyte,positive,KRT10
+Prostate,Keratinocyte,positive,DSG1
+Prostate,Keratinocyte,positive,IVL
+Prostate,Keratinocyte,positive,TP63
+Prostate,Keratinocyte,negative,EPCAM
+Prostate,Keratinocyte,negative,KRT8
+Prostate,Keratinocyte,negative,VIM

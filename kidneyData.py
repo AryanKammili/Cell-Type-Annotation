@@ -44,5 +44,5 @@ sc.pl.pca_variance_ratio(adata, n_pcs=50, log=True)
 
 # Upload the final manipulated data to pickle #
 # Allows for the model to just open the .pkl file instead of preprocessing the data each time #
-with open('kidneyData.pkl', 'wb') as f:
+with open('pickle/kidneyData.pkl', 'wb') as f:
     pickle.dump(adata, f)
